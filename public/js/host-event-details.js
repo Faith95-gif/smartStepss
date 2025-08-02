@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             displayEventDetails(event);
             
         } catch (error) {
+            console.error('Error loading event details:', error);
             document.getElementById('loadingContainer').classList.add('hidden');
             document.getElementById('errorContainer').classList.remove('hidden');
         }

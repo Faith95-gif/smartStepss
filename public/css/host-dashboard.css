@@ -518,6 +518,46 @@
     margin-bottom: 1.5rem;
 }
 
+/* Platform Overview Styles */
+.platform-overview {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.overview-card {
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border-light);
+}
+
+.overview-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.overview-header h3 {
+    color: var(--host-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.overview-content {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+.overview-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
 /* Enhanced Footer */
         .footer {
             background: linear-gradient(135deg, #2c3e50, #34495e);

@@ -23,17 +23,22 @@ document.addEventListener('DOMContentLoaded', function() {
     async function loadEventsData() {
         try {
             const response = await fetch('/api/teacher/events');
+            
+            if (!response.ok) {
+                throw new Error(`Failed to load events: ${response.status}`);
+            }
+            
             const data = await response.json();
             
-            // Ensure events is an array
-            const events = Array.isArray(data.events) ? data.events : [];
+            // Ensure events is an array and handle the response structure
+            const events = Array.isArray(data.events) ? data.events : (Array.isArray(data) ? data : []);
             
             // Update statistics
-            document.getElementById('totalEvents').textContent = events.length;
-            document.getElementById('myContributions').textContent = data.myContributions;
-            document.getElementById('pendingEvents').textContent = data.pendingEvents;
+            document.getElementById('totalEvents').textContent = events.length || 0;
+            document.getElementById('myContributions').textContent = data.myContributions || 0;
+            document.getElementById('pendingEvents').textContent = data.pendingEvents || 0;
 
-            displayEvents(events, data.teacherSubject);
+            displayEvents(events, data.teacherSubject || 'Unknown');
         } catch (error) {
             console.error('Error loading events data:', error);
             showAlert('Error loading events data', 'error');
@@ -91,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                                 <div class="meta-item">
                                     <i class="fas fa-list-ol"></i>
-                                    <span>${event.questionsPerSubject} per subject</span>
+                                    <span>40 per subject</span>
                                 </div>
                                 <div class="meta-item">
                                     <i class="fas fa-calendar"></i>
@@ -113,13 +118,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                     <div class="subject-progress ${myProgress > 0 ? 'completed' : 'pending'}">
                                         <i class="fas fa-${myProgress > 0 ? 'check-circle' : 'clock'}"></i>
-                                        ${myProgress} questions
+                                        ${myProgress}/40
                                     </div>
                                 </div>
                                 
                                 <div class="progress-bar">
-                                    <div class="progress-fill ${myProgress > 0 ? 'completed' : 'pending'}" 
-                                         style="width: ${Math.min((myProgress / 50) * 100, 100)}%"></div>
+                                    <div class="progress-fill ${myProgress >= 40 ? 'completed' : 'pending'}" 
+                                         style="width: ${Math.min((myProgress / 40) * 100, 100)}%"></div>
                                 </div>
                                 
                                 <div class="subject-actions">

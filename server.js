@@ -524,6 +524,39 @@ app.get('/api/host/events', authenticateHost, async (req, res) => {
   }
 });
 
+// Get host quizzes and responses summary
+app.get('/api/host/quizzes', authenticateHost, async (req, res) => {
+  try {
+    // Get all teachers
+    const teachers = await Teacher.find({});
+    const teacherIds = teachers.map(t => t._id);
+    
+    // Get all quizzes from teachers
+    const quizzes = await Quiz.find({ teacherId: { $in: teacherIds } });
+    const quizIds = quizzes.map(q => q._id);
+    
+    // Get all responses to teacher quizzes
+    const responses = await Response.find({ quizId: { $in: quizIds } });
+    
+    // Get all JAMB responses
+    const jambResponses = await JambResponse.find({});
+    
+    const totalResponses = responses.length + jambResponses.length;
+    
+    res.json({
+      totalQuizzes: quizzes.length,
+      totalResponses,
+      quizzes: quizzes.map(quiz => ({
+        ...quiz.toObject(),
+        teacherName: teachers.find(t => t._id.toString() === quiz.teacherId.toString())?.name || 'Unknown'
+      }))
+    });
+  } catch (error) {
+    console.error('Error fetching host quiz data:', error);
+    res.status(500).json({ error: 'Error fetching quiz data' });
+  }
+});
+
 // Get all teachers (for host)
 app.get('/api/host/teachers', authenticateHost, async (req, res) => {
   try {

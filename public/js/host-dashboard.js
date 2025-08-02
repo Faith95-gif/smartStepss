@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             displayEvents(events);
             displayTeachers(teachers);
+            displayPlatformOverview();
         } catch (error) {
             console.error('Error loading dashboard data:', error);
             showAlert('Error loading dashboard data', 'error');
@@ -260,6 +261,34 @@ document.addEventListener('DOMContentLoaded', function() {
         
         container.innerHTML = teachersHTML;
     }
+
+    function displayPlatformOverview() {
+        const container = document.getElementById('platformOverviewContainer');
+        
+        container.innerHTML = `
+            <div class="platform-overview">
+                <div class="overview-card">
+                    <div class="overview-header">
+                        <h3><i class="fas fa-chart-line"></i> Platform Statistics</h3>
+                    </div>
+                    <div class="overview-content">
+                        <p>Monitor overall platform performance and teacher engagement through the dashboard statistics above.</p>
+                        <div class="overview-actions">
+                            <button class="btn btn-outline" onclick="refreshDashboard()">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    window.refreshDashboard = function() {
+        loadDashboardData();
+        showAlert('Dashboard data refreshed!', 'success');
+    };
 
     function calculateEventProgress(event) {
         console.log('Calculating progress for event:', event.title);
