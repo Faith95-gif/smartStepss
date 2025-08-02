@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Dashboard - Smart Steps Tutorial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/host-dashboard.css">
+    <link rel="stylesheet" href="/css/logo.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <div class="logo"><img class="" src="img/steps_smart.png" alt=""></div>
+                <span>Smart Steps Tutorial - Host</span>
+            </div>
+            <div class="nav-links">
+                <span id="hostName" class="text-primary"></span>
+                <button id="logoutBtn" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">
+                <i class="fas fa-crown"></i>
+                Host Dashboard
+            </h1>
+            <p class="dashboard-subtitle">Create and manage JAMB Mock events for collaborative teacher participation.</p>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalEvents">0</div>
+                    <div class="stat-label">Total Events</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="activeEvents">0</div>
+                    <div class="stat-label">Active Events</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalQuestions">0</div>
+                    <div class="stat-label">Total Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalTeachers">0</div>
+                    <div class="stat-label">Registered Teachers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalResponses">0</div>
+                    <div class="stat-label">Student Responses</div>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button id="createEventBtn" class="btn btn-primary btn-large">
+                    <i class="fas fa-plus"></i>
+                    Create New JAMB Mock Event
+                </button>
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                JAMB Mock Events
+            </h2>
+            
+            <div id="eventsContainer">
+                <div class="text-center">
+                    <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                    <p class="mt-2">Loading events...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <h2 class="section-title">
+                <i class="fas fa-clipboard-list"></i>
+                Teacher Quizzes
+            </h2>
+            
+            <div id="teacherQuizzesContainer">
+                <div class="text-center">
+                    <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                    <p class="mt-2">Loading teacher quizzes...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <h2 class="section-title">
+                <i class="fas fa-users"></i>
+                Teacher Management
+            </h2>
+            
+            <div id="teachersContainer">
+                <div class="text-center">
+                    <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                    <p class="mt-2">Loading teachers...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create Event Modal -->
+    <div id="createEventModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle"></i> Create New JAMB Mock Event</h3>
+                <span class="close">&times;</span>
+            </div>
+            
+            <form id="createEventForm">
+                <div class="form-group">
+                    <label for="eventTitle" class="form-label">
+                        <i class="fas fa-heading"></i>
+                        Event Title
+                    </label>
+                    <input type="text" id="eventTitle" name="title" class="form-input" required 
+                           placeholder="e.g., JAMB Mock 2025 - First Quarter">
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDescription" class="form-label">
+                        <i class="fas fa-align-left"></i>
+                        Description
+                    </label>
+                    <textarea id="eventDescription" name="description" class="form-input" 
+                              placeholder="Brief description of the mock exam..." rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventTimeLimit" class="form-label">
+                        <i class="fas fa-clock"></i>
+                        Time Limit (minutes)
+                    </label>
+                    <input type="number" id="eventTimeLimit" name="timeLimit" class="form-input" 
+                           min="60" max="240" value="180" required>
+                    <small class="form-hint">Recommended: 180 minutes (3 hours) for JAMB Mock</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-info-circle"></i>
+                        Question Distribution
+                    </label>
+                    <div class="question-distribution">
+                        <div class="distribution-item">
+                            <span>English Language:</span>
+                            <strong>60 questions</strong>
+                        </div>
+                        <div class="distribution-item">
+                            <span>Mathematics:</span>
+                            <strong>40 questions</strong>
+                        </div>
+                        <div class="distribution-item">
+                            <span>Physics:</span>
+                            <strong>40 questions</strong>
+                        </div>
+                        <div class="distribution-item">
+                            <span>Chemistry:</span>
+                            <strong>40 questions</strong>
+                        </div>
+                        <div class="distribution-item">
+                            <span>Biology:</span>
+                            <strong>40 questions</strong>
+                        </div>
+                    </div>
+                    <small class="form-hint">Questions will be randomly selected from teacher contributions</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-calendar"></i>
+                        Event Deadline
+                    </label>
+                    <input type="datetime-local" id="eventDeadline" name="deadline" class="form-input" required>
+                    <small class="form-hint">Teachers must complete their questions before this deadline</small>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="cancelEventBtn">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i>
+                        Create Event
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/host-dashboard.js"></script>
+</body>
+</html>
